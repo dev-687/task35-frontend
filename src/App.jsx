@@ -1,34 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react'
 import './App.css'
+import CreateUser from './components/CreateUser'
+import CreatePost from './components/CreatePost'
+import ListPost from './components/ListPost'
+import axios from 'axios'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [authors, setAuthors] = useState([]);
+  const baseUrl = "https://task35-backend.vercel.app";
+  const api_version = "api/v1";
+  useEffect(() => {
+    axios.get(`${baseUrl}/${api_version}/users`)
+        .then(response => setAuthors(response.data))
+        .catch(error => console.error("Error fetching users:", error));
+}, []);
+
+const refreshUsers = async () => {
+  const response = await axios.get(`${baseUrl}/${api_version}/users`);
+  setAuthors(response.data);
+};
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div style={{ display: 'flex', gap: '10px' }}>
+      <div style={{ flex: '1' }}>
+        <CreateUser refreshUsers={refreshUsers}  />
+        <CreatePost authors={authors} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div style={{ flex: '3' }}>
+        <ListPost />
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   )
 }
 
