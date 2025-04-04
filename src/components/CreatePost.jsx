@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+
 const CreatePost = () => {
     const [title, setTitle] = useState("");
     const [tags, setTags] = useState([]);

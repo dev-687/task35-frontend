@@ -5,6 +5,7 @@ const CreateUser = () => {
         name: '',
         email: ''
     });
+    
     const baseUrl = "https://task35-backend.vercel.app";
     const api_version = "api/v1";
 
