@@ -1,33 +1,17 @@
-import { useEffect, useState } from 'react'
+
 import './App.css'
-import CreateUser from './components/CreateUser'
-import CreatePost from './components/CreatePost'
-import ListPost from './components/ListPost'
-import axios from 'axios'
+import FileUpload from './components/FileUpload'
+import UploadedImages from './components/UploadedImages'
 
 function App() {
-  const [authors, setAuthors] = useState([]);
-  const baseUrl = "https://task35-backend.vercel.app";
-  const api_version = "api/v1";
-  useEffect(() => {
-    axios.get(`${baseUrl}/${api_version}/users`)
-        .then(response => setAuthors(response.data))
-        .catch(error => console.error("Error fetching users:", error));
-}, []);
-
-const refreshUsers = async () => {
-  const response = await axios.get(`${baseUrl}/${api_version}/users`);
-  setAuthors(response.data);
-};
-
+ 
   return (
-    <div style={{ display: 'flex', gap: '10px' }}>
-      <div style={{ flex: '1' }}>
-        <CreateUser refreshUsers={refreshUsers}  />
-        <CreatePost authors={authors} />
+    <div className='mt-10' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
+      <div style={{ width: '50%' }}>
+        <FileUpload />
       </div>
-      <div style={{ flex: '3' }}>
-        <ListPost />
+      <div style={{ width: '80%' }}>
+        <UploadedImages />
       </div>
     </div>
   )
